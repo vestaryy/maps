@@ -40,10 +40,8 @@ class GameView(arcade.Window):
         response = requests.get(map_request)
 
         if not response:
-            print("Ошибка выполнения запроса:")
-            print(map_request)
-            print("Http статус:", response.status_code, "(", response.reason, ")")
-
+            print("максимальный масштаб")
+            return
         # Запишем полученное изображение в файл.
         with open(MAP_FILE, "wb") as file:
             file.write(response.content)
