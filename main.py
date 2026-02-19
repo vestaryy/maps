@@ -13,6 +13,8 @@ class GameView(arcade.Window):
     def setup(self):
         self.spn = 0.005
         self.spn1 = 0.005
+        self.ll = -64.825612
+        self.ll1 = 18.300496
         self.get_image()
 
 
@@ -32,8 +34,7 @@ class GameView(arcade.Window):
     def get_image(self):
         server_address = 'https://static-maps.yandex.ru/v1?'
         api_key = '1def1654-8b03-41a2-b7f9-9421fb33ce03'
-        ll = '-64.825612,18.300496'
-        ll_spn = f'll={ll}&spn={self.spn},{self.spn1}'
+        ll_spn = f'll={self.ll},{self.ll1}&spn={self.spn},{self.spn1}'
         # Готовим запрос.
 
         map_request = f"{server_address}{ll_spn}&apikey={api_key}"
@@ -58,6 +59,18 @@ class GameView(arcade.Window):
         if key == arcade.key.PAGEDOWN:
             self.spn += 0.005
             self.spn1 += 0.005
+            self.get_image()
+        if key == arcade.key.LEFT:
+            self.ll -= 0.005
+            self.get_image()
+        if key == arcade.key.UP:
+            self.ll1 += 0.005
+            self.get_image()
+        if key == arcade.key.RIGHT:
+            self.ll += 0.005
+            self.get_image()
+        if key == arcade.key.DOWN:
+            self.ll1 -= 0.005
             self.get_image()
 
 
