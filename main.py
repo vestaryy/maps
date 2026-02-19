@@ -11,7 +11,10 @@ MAP_FILE = "map.png"
 
 class GameView(arcade.Window):
     def setup(self):
+        self.spn = 0.005
+        self.spn1 = 0.005
         self.get_image()
+
 
     def on_draw(self):
         self.clear()
@@ -30,8 +33,7 @@ class GameView(arcade.Window):
         server_address = 'https://static-maps.yandex.ru/v1?'
         api_key = '1def1654-8b03-41a2-b7f9-9421fb33ce03'
         ll = '-64.825612,18.300496'
-        spn = '0.005,0.005'
-        ll_spn = f'll={ll}&spn={spn}'
+        ll_spn = f'll={ll}&spn={self.spn},{self.spn1}'
         # Готовим запрос.
 
         map_request = f"{server_address}{ll_spn}&apikey={api_key}"
@@ -41,13 +43,24 @@ class GameView(arcade.Window):
             print("Ошибка выполнения запроса:")
             print(map_request)
             print("Http статус:", response.status_code, "(", response.reason, ")")
-            sys.exit(1)
 
         # Запишем полученное изображение в файл.
         with open(MAP_FILE, "wb") as file:
             file.write(response.content)
 
         self.background = arcade.load_texture(MAP_FILE)
+
+
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.PAGEUP:
+            self.spn -= 0.005
+            self.spn1 -= 0.005
+            self.get_image()
+        if key == arcade.key.PAGEDOWN:
+            self.spn += 0.005
+            self.spn1 += 0.005
+            self.get_image()
 
 
 def main():
